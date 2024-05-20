@@ -5,7 +5,6 @@ import (
 	"encoding/hex"
 	"fmt"
 	"reflect"
-	"strconv"
 	"strings"
 	"time"
 )
@@ -52,31 +51,6 @@ func CriarObjetoMapa() map[string]interface{} {
 	return make(map[string]interface{})
 }
 
-/*
-Tenta converter o valor para um número inteiro.
-Se a conversão for bem-sucedida, retorna o número fracionado.
-Se a conversão falhar, retorna um erro.
-*/
-func ParaInteiro(valor interface{}) (int64, error) {
-	switch v := valor.(type) {
-	case int:
-		return int64(v), nil
-	case int64:
-		return v, nil
-	case float64:
-		return int64(v), nil
-	case string:
-		// Tentar converter a string para float64
-		floatValor, err := strconv.ParseFloat(v, 64)
-		if err != nil {
-			return 0, err
-		}
-		return int64(floatValor), nil
-	default:
-		return 0, fmt.Errorf("valor não pode ser convertido para inteiro")
-	}
-}
-
 // Retorna o ano como um inteiro de acordo com a data informada.
 func Ano(data time.Time) int {
 	return data.Year()
@@ -90,31 +64,6 @@ func Dia(data time.Time) int {
 // Retorna o mês como um inteiro de acordo com a data informada.
 func Mes(data time.Time) int {
 	return int(data.Month())
-}
-
-/*
-Tenta converter o valor para um número fracionado.
-Se a conversão for bem-sucedida, retorna o número fracionado.
-Se a conversão falhar, retorna um erro.
-*/
-func ParaFracionado(valor interface{}) (float64, error) {
-	switch v := valor.(type) {
-	case int:
-		return float64(v), nil
-	case int64:
-		return float64(v), nil
-	case float64:
-		return v, nil
-	case string:
-		// Tentar converter a string para float64
-		resultado, err := strconv.ParseFloat(v, 64)
-		if err != nil {
-			return 0, err
-		}
-		return resultado, nil
-	default:
-		return 0, fmt.Errorf("valor não pode ser convertido para fracionado")
-	}
 }
 
 // Insere um elemento em uma lista na posição indicada (ou no final).
@@ -141,11 +90,6 @@ func Append(texto *string, variants ...interface{}) string {
 	}
 	*texto += strings.Join(strVariants, "")
 	return *texto
-}
-
-// Letras converte um valor para uma string.
-func ParaLetras(valor interface{}) string {
-	return fmt.Sprint(valor)
 }
 
 // Remove todos os espaços de uma string.
