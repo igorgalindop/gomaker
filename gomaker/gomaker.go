@@ -8,11 +8,6 @@ import (
 	"strings"
 )
 
-// Retorna uma lista vazia que pode ser populada com valores de qualquer tipo.
-func CriarObjetoLista() []interface{} {
-	return []interface{}{}
-}
-
 // Retorna o objeto mapa para armazenar valores. Chave (string) e Valor (qualquer tipo)
 func CriarObjetoMapa() map[string]interface{} {
 	return make(map[string]interface{})
