@@ -4,8 +4,6 @@ import (
 	"crypto/md5"
 	"encoding/hex"
 	"fmt"
-	"os"
-	"path/filepath"
 	"reflect"
 	"strconv"
 	"strings"
@@ -155,20 +153,6 @@ func RemoverEspacos(texto string) string {
 	return strings.ReplaceAll(texto, " ", "")
 }
 
-// Verifica se o caminho especificado existe.
-func ExistePasta(caminho string) bool {
-	caminhoAbsoluto, err := filepath.Abs(caminho)
-	if err != nil {
-		fmt.Println("Erro ao obter caminho absoluto:", err)
-		return false
-	}
-
-	if _, err := os.Stat(caminhoAbsoluto); os.IsNotExist(err) {
-		return false
-	}
-	return true
-}
-
 // ENuloOuVazio verifica se um valor é nulo ou vazio.
 func ENuloOuVazio(valor interface{}) bool {
 	if valor == nil {
@@ -187,27 +171,6 @@ func ENuloOuVazio(valor interface{}) bool {
 	}
 }
 
-/*
-Cria uma nova pasta no servidor.
-
-Observações:
- 1. Caso a pasta definida no parâmetro já exista, a funçao não retornará erro.
-*/
-func CriarNovaPasta(caminho string) error {
-	// Verifica se a pasta já existe.
-	if _, err := os.Stat(caminho); err == nil {
-		return nil
-	}
-
-	// Tenta criar a pasta e toda a estrutura de pastas.
-	if err := os.MkdirAll(caminho, 0755); err != nil {
-		return fmt.Errorf("erro ao criar a pasta '%s': %v", caminho, err)
-	}
-
-	fmt.Printf("Pasta '%s' criada com sucesso.\n", caminho)
-	return nil
-}
-
 // Converte uma string para maiúsculo.
 func Maiusculo(texto string) string {
 	return strings.ToUpper(texto)
@@ -216,4 +179,9 @@ func Maiusculo(texto string) string {
 // Converte uma string para minúsculo.
 func Minusculo(texto string) string {
 	return strings.ToLower(texto)
+}
+
+// Verifica se o conteúdo do primeiro parâmetro inicia com o conteúdo do segundo parâmetro.
+func IniciaCom(texto, valorInicial string) bool {
+	return strings.HasPrefix(texto, valorInicial)
 }
