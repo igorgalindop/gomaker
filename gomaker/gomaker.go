@@ -6,40 +6,7 @@ import (
 	"fmt"
 	"reflect"
 	"strings"
-	"time"
 )
-
-/*
-Essa função obtem a data atual e retorna.
-
-Timezones:
-
-	0 = Padrão (de acordo com o timezone do servidor)
-	1 = America/Sao_Paulo
-*/
-func Hoje(timezone int) time.Time {
-
-	if timezone != 0 {
-		var timeLocation string
-		var err error
-
-		switch timezone {
-		case 1:
-			timeLocation = "America/Sao_Paulo"
-		default:
-			return time.Now()
-		}
-
-		timezone, err := time.LoadLocation(timeLocation)
-		if err != nil {
-			fmt.Println("Erro ao carregar o fuso horário:", err)
-			return time.Now().In(timezone)
-		}
-
-		return time.Now().In(timezone)
-	}
-	return time.Now()
-}
 
 // Retorna uma lista vazia que pode ser populada com valores de qualquer tipo.
 func CriarObjetoLista() []interface{} {
@@ -49,21 +16,6 @@ func CriarObjetoLista() []interface{} {
 // Retorna o objeto mapa para armazenar valores. Chave (string) e Valor (qualquer tipo)
 func CriarObjetoMapa() map[string]interface{} {
 	return make(map[string]interface{})
-}
-
-// Retorna o ano como um inteiro de acordo com a data informada.
-func Ano(data time.Time) int {
-	return data.Year()
-}
-
-// Retorna o dia como um inteiro de acordo com a data informada.
-func Dia(data time.Time) int {
-	return data.Day()
-}
-
-// Retorna o mês como um inteiro de acordo com a data informada.
-func Mes(data time.Time) int {
-	return int(data.Month())
 }
 
 // Insere um elemento em uma lista na posição indicada (ou no final).
