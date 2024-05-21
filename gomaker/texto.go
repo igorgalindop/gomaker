@@ -65,6 +65,140 @@ func RemoverAcentos(input string) (string, error) {
 
 }
 
+/*
+Esta função localiza todas as subseqüências iguais ao 2º parâmetro dentro do texto e os substituem pelo conteúdo passado no
+3º parâmetro.
+*/
+func TrocarTodasAsSubsequenciasRegex(texto, valorAEncontrar, valorDesejado string) (string, error) {
+	regex, err := regexp.Compile(valorAEncontrar)
+	if err != nil {
+		return "", fmt.Errorf("erro ao compilar regex: %v", err)
+	}
+
+	resultado := regex.ReplaceAllString(texto, valorDesejado)
+	return resultado, nil
+}
+
+// Procura dentro do texto a subsequência passada como parâmetro e retorna verdadeiro se encontrada.
+func ExisteSubsequencia(texto, valorALocalizar string) bool {
+	return strings.Contains(texto, valorALocalizar)
+}
+
+/*
+A função localiza o 2º parâmetro dentro do texto e o substitui pelo conteúdo passado no 3º parâmetro.
+
+Observação:
+
+A função só substitui a primeira ocorrência encontrada. Para substituir todas as subsequências encontradas utilize a função
+TrocarTodasAsSubsequencias.
+*/
+func TrocarSubsequencia(texto, valorAEncontrar, valorDesejado string) string {
+	return strings.Replace(texto, valorAEncontrar, valorDesejado, 1)
+}
+
+/*
+Esta função localiza todas as subseqüências iguais ao 2º parâmetro dentro do texto e os substituem pelo conteúdo passado no
+3º parâmetro.
+*/
+func TrocarTodasAsSubsequencias(texto, valorAEncontrar, valorDesejado string) string {
+	return strings.ReplaceAll(texto, valorAEncontrar, valorDesejado)
+}
+
+/*
+IndiceSubsequencia localiza o conteúdo do 2° parâmetro dentro do conteúdo do primeiro parâmetro
+e retorna a posição deste caso o encontre. Caso não encontre, retorna 0.
+*/
+func IndiceSubsequencia(texto, valorAEncontrar string) int {
+	if valorAEncontrar == "" {
+		return 0
+	}
+	indice := strings.Index(texto, valorAEncontrar)
+	if indice == -1 {
+		return 0
+	}
+	return indice + 1
+}
+
+// Faz uma validação numa string utilizando expressão regular.
+func ValidarTextoUtilizandoExpressaoRegular(texto, expressaoRegular string) bool {
+	padrao, err := regexp.Compile(expressaoRegular)
+	if err != nil {
+		return false
+	}
+	return padrao.MatchString(texto)
+}
+
+/*
+Recebe um texto e retorna a quantidade de caracteres passada
+como segundo parâmetro a partir do final.
+*/
+func SubsequenciaInvertida(texto string, quantidade int) string {
+	runes := []rune(texto)
+	if quantidade > len(runes) {
+		quantidade = len(runes)
+	}
+	inicio := len(runes) - quantidade
+	return string(runes[inicio:])
+}
+
+// Remove os caracteres das posições indicadas entre o segundo e terceiro parâmetro do texto passado no primeiro parâmetro.
+func RemoverSubsequencia(texto string, posicaoInicial, quantidade int) string {
+	runes := []rune(texto)
+	inicio := posicaoInicial - 1
+	fim := inicio + quantidade
+
+	if inicio < 0 {
+		inicio = 0
+	}
+	if fim > len(runes) {
+		fim = len(runes)
+	}
+	if inicio >= len(runes) || inicio >= fim {
+		return texto
+	}
+
+	return string(runes[:inicio]) + string(runes[fim:])
+}
+
+// Retorna a subsequência contida no texto que inicia na posição especificada e tem o tamanho indicado.
+func Subsequencia(texto string, posicaoInicial, tamanho int) string {
+	runes := []rune(texto)
+	inicio := posicaoInicial - 1
+	fim := inicio + tamanho
+
+	if inicio < 0 {
+		inicio = 0
+	}
+	if fim > len(runes) {
+		fim = len(runes)
+	}
+	if inicio >= len(runes) || inicio >= fim {
+		return ""
+	}
+
+	return string(runes[inicio:fim])
+}
+
+// Completa o texto à esquerda com o conteúdo fornecido até atingir o tamanho especificado.
+func CompletarAEsquerda(texto string, tamanho int, conteudo string) string {
+	repeticoes := tamanho - len(texto)
+	if repeticoes <= 0 {
+		return texto
+	}
+
+	return strings.Repeat(conteudo, repeticoes) + texto
+}
+
+// Completa o texto à direita com o conteúdo fornecido até atingir o tamanho especificado.
+func CompletarADireita(texto string, tamanho int, conteudo string) string {
+	repeticoes := tamanho - len(texto)
+	if repeticoes <= 0 {
+		return texto
+	}
+
+	return texto + strings.Repeat(conteudo, repeticoes)
+}
+
 // Retorna os caracteres deixando somente os números de um texto.
 func SomenteNumeros(texto string) string {
 	// Define a expressão regular para encontrar apenas números
